@@ -1,0 +1,12 @@
+{ "works"            :[ { "id"    : 1,
+                          "title" : "Samir Fors" },
+                        { "id"    : 2,
+                          "title" : "Christian Östman"},
+                        { "id"    : 3,
+                          "title" : "Mikael Jämtsved"},
+                        { "id"    : 4,
+                          "title" : "Calle Berndtsson"},
+                        { "id"    : 5,
+                          "title" : "Adam Gardefjord"}
+                      ]
+}
