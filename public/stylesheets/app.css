@@ -4645,13 +4645,13 @@ a.thumbnail:hover {
     margin-left: 30px;
   }
 }
+h1 {
+  font-size: 56px;
+  line-height: 64px; }
+
+h1, h2 {
+  color: #84a48b;
+  text-shadow: 0 1px 0 white; }
+
 body {
   background: #f1f1f1; }
-
-#home-view {
-  margin: 20px auto; }
-
-h1 {
-  color: #444444;
-  text-shadow: 0 1px 0 white;
-  font-size: 56px; }
