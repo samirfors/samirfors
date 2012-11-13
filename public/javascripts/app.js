@@ -87,13 +87,10 @@ window.require.define({"application": function(exports, require, module) {
       // Ideally, initialized classes should be kept in controllers & mediator.
       // If you're making big webapp, here's more sophisticated skeleton
       // https://github.com/paulmillr/brunch-with-chaplin
-      this.contactView = new ContactView();
-      this.menuView = new MenuView();
-      this.workView = new WorkView({
-          collection: new WorkCollection()
-      });
-      this.homeView = new HomeView();
-      this.router = new Router();
+      this.contactView    = new ContactView();
+      this.menuView       = new MenuView();
+      this.homeView       = new HomeView();
+      this.router         = new Router();
       if (typeof Object.freeze === 'function') Object.freeze(this);
     }
   }
@@ -114,11 +111,13 @@ window.require.define({"initialize": function(exports, require, module) {
 
 window.require.define({"lib/router": function(exports, require, module) {
   var application = require('application');
+  var WorkView = require('../views/work_view');
 
   module.exports = Backbone.Router.extend({
     routes: {
       ''        : 'home',
       'contact' : 'contact',
+      'work'    : 'work',
       'work/:id': 'work'
     },
 
@@ -135,7 +134,11 @@ window.require.define({"lib/router": function(exports, require, module) {
     },
 
     work: function(id) {
-      console.log(id);
+      if(id) {
+        console.log(id);
+      }
+      var workView = new WorkView();
+      $('#main').html(workView.render().el);
     }
   });
   
@@ -143,6 +146,14 @@ window.require.define({"lib/router": function(exports, require, module) {
 
 window.require.define({"lib/view_helper": function(exports, require, module) {
   // Put your handlebars.js helpers here.
+  
+}});
+
+window.require.define({"models/collection": function(exports, require, module) {
+  // Base class for all collections.
+  module.exports = Backbone.Collection.extend({
+    
+  });
   
 }});
 
@@ -155,29 +166,37 @@ window.require.define({"models/model": function(exports, require, module) {
 }});
 
 window.require.define({"models/work_collection": function(exports, require, module) {
-  //var Collection = require('./collection');
+  var Collection = require('./collection');
   var work_model = require('./work_model');
 
-  module.exports = Backbone.Collection.extend({
+  module.exports = Collection.extend({
     model: work_model,
 
     url: '../json/work.json',
 
     initialize: function() {
-      console.log('work collection init');
       this.fetch({add: true});
-      //this.getAllWork();
-      console.log(this);
+    },
+
+    parse: function(resp) {
+      var self = this;
+      _.each(resp.works, function(work) {
+        self.push(new work_model({
+          id: work.id,
+          title: work.title
+        }));
+      });
+      this.trigger('parsedWorks');
+    },
+
+    getAllWork: function() {
+      return this;
+    },
+
+    getOneWork: function(id) {
+      return this.get(id);
     }
 
-    // getAllWork: function() {
-    //   var self = this;
-    //   $.getJSON('../json/work.json', function(data) {
-    //      _.each(data.works, function(work) {
-    //        self.push(new work_model({id:work.id, name:work.title}));
-    //      });
-    //    });
-    // }
   });
 }});
 
@@ -185,10 +204,8 @@ window.require.define({"models/work_model": function(exports, require, module) {
   var Model = require('./model');
 
   module.exports = Model.extend({
-    defaults: {
-      id: null,
-      title: null
-    }
+    id: null,
+    title: null
   });
 }});
 
@@ -221,7 +238,7 @@ window.require.define({"views/menu_view": function(exports, require, module) {
   module.exports = View.extend({
     id: 'menu-view',
     tagName: 'nav',
-    className: 'span12',
+    className: 'span6',
     template: template
   });
   
@@ -251,16 +268,76 @@ window.require.define({"views/templates/menu": function(exports, require, module
     var foundHelper, self=this;
 
 
-    return "<ul>\n  <li><a href=\"/#\">Home</a></li>\n  <li><a href=\"/#contact\">Contact</a></li>\n</ul>\n";});
+    return "<ul>\n  <li><a href=\"/#\">Home</a></li>\n  <li><a href=\"/#contact\">Contact</a></li>\n  <li><a href=\"/#work\">Work</a></li>\n</ul>\n";});
 }});
 
 window.require.define({"views/templates/work": function(exports, require, module) {
   module.exports = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
     helpers = helpers || Handlebars.helpers;
-    var foundHelper, self=this;
+    var buffer = "", stack1, stack2, foundHelper, tmp1, self=this, functionType="function", helperMissing=helpers.helperMissing, undef=void 0, escapeExpression=this.escapeExpression;
+
+  function program1(depth0,data) {
+    
+    var buffer = "", stack1, stack2;
+    buffer += "\n<ul>\n  ";
+    foundHelper = helpers.works;
+    stack1 = foundHelper || depth0.works;
+    stack2 = helpers.each;
+    tmp1 = self.program(2, program2, data);
+    tmp1.hash = {};
+    tmp1.fn = tmp1;
+    tmp1.inverse = self.noop;
+    stack1 = stack2.call(depth0, stack1, tmp1);
+    if(stack1 || stack1 === 0) { buffer += stack1; }
+    buffer += "\n</ul>\n";
+    return buffer;}
+  function program2(depth0,data) {
+    
+    var buffer = "", stack1;
+    buffer += "\n    <li><a href=\"/#works/";
+    foundHelper = helpers.id;
+    stack1 = foundHelper || depth0.id;
+    if(typeof stack1 === functionType) { stack1 = stack1.call(depth0, { hash: {} }); }
+    else if(stack1=== undef) { stack1 = helperMissing.call(depth0, "id", { hash: {} }); }
+    buffer += escapeExpression(stack1) + "\">";
+    foundHelper = helpers.title;
+    stack1 = foundHelper || depth0.title;
+    if(typeof stack1 === functionType) { stack1 = stack1.call(depth0, { hash: {} }); }
+    else if(stack1=== undef) { stack1 = helperMissing.call(depth0, "title", { hash: {} }); }
+    buffer += escapeExpression(stack1) + "</a></li>\n  ";
+    return buffer;}
+
+  function program4(depth0,data) {
+    
+    
+    return "\n\nNo works\n\n";}
+
+    buffer += "<h2>My works</h2>\n";
+    foundHelper = helpers.works;
+    stack1 = foundHelper || depth0.works;
+    stack2 = helpers['if'];
+    tmp1 = self.program(1, program1, data);
+    tmp1.hash = {};
+    tmp1.fn = tmp1;
+    tmp1.inverse = self.program(4, program4, data);
+    stack1 = stack2.call(depth0, stack1, tmp1);
+    if(stack1 || stack1 === 0) { buffer += stack1; }
+    return buffer;});
+}});
+
+window.require.define({"views/templates/workLi": function(exports, require, module) {
+  module.exports = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+    helpers = helpers || Handlebars.helpers;
+    var buffer = "", stack1, foundHelper, self=this, functionType="function", helperMissing=helpers.helperMissing, undef=void 0, escapeExpression=this.escapeExpression;
 
 
-    return "<p>work man</p>";});
+    buffer += "<li>\n  ";
+    foundHelper = helpers.title;
+    stack1 = foundHelper || depth0.title;
+    if(typeof stack1 === functionType) { stack1 = stack1.call(depth0, { hash: {} }); }
+    else if(stack1=== undef) { stack1 = helperMissing.call(depth0, "title", { hash: {} }); }
+    buffer += escapeExpression(stack1) + "\n</li>";
+    return buffer;});
 }});
 
 window.require.define({"views/view": function(exports, require, module) {
@@ -273,7 +350,8 @@ window.require.define({"views/view": function(exports, require, module) {
     },
 
     template: function() {},
-    getRenderData: function() {},
+    getRenderData: function() {
+    },
 
     render: function() {
       this.$el.html(this.template(this.getRenderData()));
@@ -289,10 +367,28 @@ window.require.define({"views/view": function(exports, require, module) {
 window.require.define({"views/work_view": function(exports, require, module) {
   var View = require('./view');
   var template = require('./templates/work');
+  var WorkCollection = require('../models/work_collection');
 
   module.exports = View.extend({
     id: 'work-view',
-    template: template
+    template: template,
+
+    elems: {},
+
+    events: {},
+
+    initialize: function() {
+      _.bindAll(this);
+      this.collection = new WorkCollection();
+      this.collection.bind('parsedWorks', this.render, this);
+    },
+
+    getRenderData: function() {
+      return {
+        works: this.collection.toJSON()
+      };
+    }
+
   });
   
 }});

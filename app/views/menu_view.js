@@ -4,6 +4,6 @@ var template = require('./templates/menu');
 module.exports = View.extend({
   id: 'menu-view',
   tagName: 'nav',
-  className: 'span12',
+  className: 'span6',
   template: template
 });

@@ -10,13 +10,10 @@ Application = {
     // Ideally, initialized classes should be kept in controllers & mediator.
     // If you're making big webapp, here's more sophisticated skeleton
     // https://github.com/paulmillr/brunch-with-chaplin
-    this.contactView = new ContactView();
-    this.menuView = new MenuView();
-    this.workView = new WorkView({
-        collection: new WorkCollection()
-    });
-    this.homeView = new HomeView();
-    this.router = new Router();
+    this.contactView    = new ContactView();
+    this.menuView       = new MenuView();
+    this.homeView       = new HomeView();
+    this.router         = new Router();
     if (typeof Object.freeze === 'function') Object.freeze(this);
   }
 }

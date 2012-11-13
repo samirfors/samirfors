@@ -1,12 +1,12 @@
 { "works"            :[ { "id"    : 1,
-                          "title" : "Samir Fors" },
+                          "title" : "PicPin" },
                         { "id"    : 2,
-                          "title" : "Christian Östman"},
+                          "title" : "SpotMyVideo"},
                         { "id"    : 3,
-                          "title" : "Mikael Jämtsved"},
+                          "title" : "This Is My Share"},
                         { "id"    : 4,
-                          "title" : "Calle Berndtsson"},
+                          "title" : "Klarna Insight"},
                         { "id"    : 5,
-                          "title" : "Adam Gardefjord"}
+                          "title" : "Klarna Checkout"}
                       ]
 }

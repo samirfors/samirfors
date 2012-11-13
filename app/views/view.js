@@ -7,7 +7,8 @@ module.exports = Backbone.View.extend({
   },
 
   template: function() {},
-  getRenderData: function() {},
+  getRenderData: function() {
+  },
 
   render: function() {
     this.$el.html(this.template(this.getRenderData()));

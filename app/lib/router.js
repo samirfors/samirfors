@@ -1,9 +1,11 @@
 var application = require('application');
+var WorkView = require('../views/work_view');
 
 module.exports = Backbone.Router.extend({
   routes: {
     ''        : 'home',
     'contact' : 'contact',
+    'work'    : 'work',
     'work/:id': 'work'
   },
 
@@ -20,6 +22,10 @@ module.exports = Backbone.Router.extend({
   },
 
   work: function(id) {
-    console.log(id);
+    if(id) {
+      console.log(id);
+    }
+    var workView = new WorkView();
+    $('#main').html(workView.render().el);
   }
 });

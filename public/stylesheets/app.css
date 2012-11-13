@@ -4646,12 +4646,26 @@ a.thumbnail:hover {
   }
 }
 h1 {
-  font-size: 56px;
-  line-height: 64px; }
+  font-size: 52px;
+  line-height: 64px;
+  text-transform: uppercase;
+  border-top: 10px solid #f1f1f1;
+  border-bottom: 10px solid #f1f1f1; }
 
 h1, h2 {
-  color: #84a48b;
+  color: #f1f1f1;
   text-shadow: 0 1px 0 white; }
 
 body {
-  background: #f1f1f1; }
+  background: #b2beab; }
+
+header {
+  padding: 10px 0; }
+  header img {
+    border-radius: 100%;
+    border: 15px solid #f1f1f1; }
+
+nav ul {
+  margin: 0; }
+nav li {
+  display: inline; }
